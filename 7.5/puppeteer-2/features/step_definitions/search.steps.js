@@ -18,17 +18,50 @@ After(async function () {
 });
 
 Given("user is on {string} page", async function (string) {
-  return await this.page.goto(`https://netology.ru${string}`, {
-    setTimeout: 20000,
+  return await this.page.goto(`${string}`, {
+    setTimeout: 40000,
   });
 });
 
-When("user search by {string}", async function (string) {
-  return await putText(this.page, "input", string);
+When("user choose day '2'And user choose chair '1' ", async function (string) {
+  await clickElement(this.page, `${string}`);
+});
+When("user choose time {string}", async function (string) {
+  await clickElement(this.page, `${string}`);
+});
+When("user choose chair {string}", async function (string) {
+  await clickElement(this.page, `${string}`);
+});
+When("When user clicks accept button", async function (string) {
+  await clickElement(this.page, `${string}`);
+});
+When("When user clicks accept button", async function (string) {
+  await clickElement(this.page, `${string}`);
 });
 
-Then("user sees the course suggested {string}", async function (string) {
-  const actual = await getText(this.page, "a[data-name]");
+When("user sees the qr text first time {string}", async function (string) {
+  const actual = await getText(this.page, "p.ticket__hint");
+  const expected = await string;
+  expect(actual).contains(expected);
+});
+
+When("user go on {string} page", async function (string) {
+  return await this.page.goto(`${string}`, {
+    setTimeout: 50000,
+  });
+});
+
+Then("user sees the qr text {string}", async function (string) {
+  const actual = await getText(this.page, "p.ticket__hint");
+  const expected = await string;
+  expect(actual).contains(expected);
+});
+Then("booking button disabled {string}", async function (string) {
+  const actual = String(
+    await this.page.$eval("button", (button) => {
+      return button.disabled;
+    })
+  );
   const expected = await string;
   expect(actual).contains(expected);
 });
